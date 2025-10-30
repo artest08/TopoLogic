@@ -11,6 +11,8 @@ CHECKPOINT=work_dirs/topologic_r50_8x1_24e_olv2_subset_A.pth
 GPUS=$1
 PORT=${PORT:-28511}
 
+mkdir -p ${WORK_DIR}
+
 ~/containers/python_topomlp -m torch.distributed.run --nproc_per_node=$GPUS --master_port=$PORT \
     tools/test.py $CONFIG $CHECKPOINT --launcher pytorch \
     --out-dir ${WORK_DIR}/test --eval openlane_v2 ${@:2} \
