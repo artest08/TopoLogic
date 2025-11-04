@@ -25,7 +25,7 @@ from tqdm import tqdm
 
 from .f_score import LaneEval
 from .distance import pairwise, chamfer_distance, frechet_distance, iou_distance
-from tairvision.datasets.openlane_v2 import io
+from .io import io
 from .check import check_results
 from .utils import TRAFFIC_ELEMENT_ATTRIBUTE
 
