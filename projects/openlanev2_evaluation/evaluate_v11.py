@@ -25,7 +25,7 @@ from tqdm import tqdm
 
 from .f_score import LaneEval
 from .distance import pairwise, chamfer_distance, frechet_distance, iou_distance
-from .io import io
+from tairvision.datasets.openlane_v2 import io
 from .check import check_results
 from .utils import TRAFFIC_ELEMENT_ATTRIBUTE
 
@@ -33,7 +33,7 @@ from .utils import TRAFFIC_ELEMENT_ATTRIBUTE
 THRESHOLDS_FRECHET = [1.0, 2.0, 3.0]
 THRESHOLDS_CHAMFER = [0.5, 1.0, 1.5]
 THRESHOLDS_IOU = [0.75]
-THRESHOLD_RELATIONSHIP_CONFIDENCE = 0.5
+THRESHOLD_RELATIONSHIP_CONFIDENCE = 0.05
 
 
 def _pr_curve(recalls, precisions):
@@ -461,7 +461,7 @@ def _mAP_topology_lclc(gts, preds, distance_thresholds):
             ys = gt_indices[None, :].repeat(len(gt_indices), 0)
             preds_topology_lclc[xs, ys] = preds_topology_lclc_unmatched[pred_indices][:, pred_indices]
             preds_topology_lclc[np.isnan(preds_topology_lclc)] = (
-                1 - gts_topology_lclc[np.isnan(preds_topology_lclc)]) * (0.5 + np.finfo(np.float32).eps)
+                1 - gts_topology_lclc[np.isnan(preds_topology_lclc)]) * (THRESHOLD_RELATIONSHIP_CONFIDENCE + np.finfo(np.float32).eps)
 
             acc.append(_AP_directerd(gts=gts_topology_lclc, preds=preds_topology_lclc))
 
